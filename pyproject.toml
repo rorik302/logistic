@@ -9,6 +9,7 @@ python = "^3.9"
 Django = "^3.1.7"
 environs = {extras = ["django"], version = "^9.3.2"}
 psycopg2-binary = "^2.8.6"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.0.0"}
 
 [tool.poetry.dev-dependencies]
 
