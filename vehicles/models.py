@@ -1,5 +1,6 @@
 from django.db import models
 
+from companies.models import Company
 from project.base.models import BaseModel
 
 
@@ -11,6 +12,7 @@ class Vehicle(BaseModel):
     type = models.CharField(max_length=50, verbose_name='Тип ТС', choices=TYPE_CHOICES)
     mark = models.CharField(max_length=255, verbose_name='Марка', blank=True)
     registration_number = models.CharField(max_length=25, verbose_name='Регистрационный номер')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Компания', related_name='vehicles')
 
     def __str__(self):
         return f'{self.mark} {self.registration_number}'.strip()
@@ -22,7 +24,8 @@ class Vehicle(BaseModel):
 
 
 class VehicleParameters(BaseModel):
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, verbose_name='Транспортное средство')
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, verbose_name='Транспортное средство',
+                                related_name='vehicle_parameters')
     body = models.CharField(max_length=50, verbose_name='Кузов', blank=True)
     carrying = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Грузоподъемность')
     volume = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Объем')

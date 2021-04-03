@@ -5,7 +5,8 @@ from project.base.models import BaseModel
 
 
 class Company(BaseModel):
-    type = models.ForeignKey('companies.CompanyType', on_delete=models.PROTECT, verbose_name='Правовая форма')
+    type = models.ForeignKey('companies.CompanyType', on_delete=models.PROTECT, verbose_name='Правовая форма',
+                             related_name='companies')
     name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование', unique=True)
     name_full = models.CharField(max_length=255, verbose_name='Полное наименование', unique=True)
     is_customer = models.BooleanField(default=False, verbose_name='Может быть заказчиком')
@@ -35,7 +36,8 @@ class CompanyType(BaseModel):
 
 
 class Requisites(BaseModel):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Организация')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Организация',
+                                related_name='requisites')
     inn = models.CharField(max_length=20, blank=True, verbose_name='ИНН')
     kpp = models.CharField(max_length=20, blank=True, verbose_name='КПП')
     ogrn = models.CharField(max_length=20, blank=True, verbose_name='ОГРН')
