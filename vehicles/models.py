@@ -24,8 +24,8 @@ class Vehicle(BaseModel):
 
 
 class VehicleParameters(BaseModel):
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, verbose_name='Транспортное средство',
-                                related_name='vehicle_parameters')
+    vehicle = models.ForeignKey(
+        Vehicle, on_delete=models.CASCADE, verbose_name='Транспортное средство', related_name='vehicle_parameters')
     body = models.CharField(max_length=50, verbose_name='Кузов', blank=True)
     carrying = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Грузоподъемность')
     volume = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Объем')
