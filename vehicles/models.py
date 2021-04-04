@@ -1,4 +1,5 @@
 from django.db import models
+from uuslug import uuslug
 
 from companies.models import Company
 from project.base.models import BaseModel
@@ -13,9 +14,15 @@ class Vehicle(BaseModel):
     mark = models.CharField(max_length=255, verbose_name='Марка', blank=True)
     registration_number = models.CharField(max_length=25, verbose_name='Регистрационный номер')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Компания', related_name='vehicles')
+    slug = models.CharField('Слаг', max_length=50, blank=True)
 
     def __str__(self):
         return f'{self.mark} {self.registration_number}'.strip()
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(f'{self.mark}-{self.registration_number}' if self.mark else self.registration_number,
+                           instance=self)
+        super(Vehicle, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'vehicles'

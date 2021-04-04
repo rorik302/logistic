@@ -8,6 +8,7 @@ urlpatterns = [
 
     path('api/companies/', include('companies.urls')),
     path('api/drivers/', include('drivers.urls')),
+    path('api/vehicles/', include('vehicles.urls')),
 ]
 
 if DEBUG:
