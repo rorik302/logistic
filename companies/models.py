@@ -29,8 +29,9 @@ class Company(BaseModel):
 
 
 class CompanyType(BaseModel):
-    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование')
-    name_full = models.CharField(max_length=255, verbose_name='Полное наименование')
+    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование', unique=True)
+    name_full = models.CharField(max_length=255, verbose_name='Полное наименование', unique=True)
+    slug = models.CharField('Слаг', max_length=50, blank=True)
 
     class Meta:
         db_table = 'company_types'
@@ -39,6 +40,10 @@ class CompanyType(BaseModel):
 
     def __str__(self):
         return f'{self.name_short} ({self.name_full})'
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name_short, instance=self)
+        super(CompanyType, self).save(*args, **kwargs)
 
 
 class Requisites(BaseModel):

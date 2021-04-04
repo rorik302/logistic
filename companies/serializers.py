@@ -3,7 +3,7 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
-from companies.models import Company
+from companies.models import Company, CompanyType
 
 
 class CompanySerializer(ModelSerializer):
@@ -24,3 +24,14 @@ class CompanySerializer(ModelSerializer):
             if not is_customer and not is_transporter:
                 raise ValidationError('Нужно указать is_customer или is_transporter или оба')
         return attrs
+
+
+class CompanyTypeSerializer(ModelSerializer):
+    uri = SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = CompanyType
+        fields = '__all__'
+
+    def get_uri(self, object):
+        return reverse('companies:rud_type', request=self.context.get('request'), kwargs={'slug': object.slug})

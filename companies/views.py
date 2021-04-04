@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 
-from companies.models import Company
-from companies.serializers import CompanySerializer
+from companies.models import Company, CompanyType
+from companies.serializers import CompanySerializer, CompanyTypeSerializer
 
 
 class CompanyListCreateAPIView(ListCreateAPIView):
@@ -28,3 +28,14 @@ class TransporterListAPIView(ListAPIView):
 class OwnCompanyListAPIView(ListAPIView):
     queryset = Company.objects.filter(is_own=True)
     serializer_class = CompanySerializer
+
+
+class CompanyTypeListCreateAPIView(ListCreateAPIView):
+    queryset = CompanyType.objects.all()
+    serializer_class = CompanyTypeSerializer
+
+
+class CompanyTypeRUDAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CompanyType.objects.all()
+    serializer_class = CompanyTypeSerializer
+    lookup_field = 'slug'
