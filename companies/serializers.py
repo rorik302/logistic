@@ -1,13 +1,20 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.fields import SerializerMethodField
+from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
 from companies.models import Company
 
 
 class CompanySerializer(ModelSerializer):
+    uri = SerializerMethodField(read_only=True)
+
     class Meta:
         model = Company
         fields = '__all__'
+
+    def get_uri(self, object):
+        return reverse('companies:rud_company', request=self.context.get('request'), kwargs={'slug': object.slug})
 
     def validate(self, attrs):
         is_own = attrs.get('is_own')
