@@ -1,4 +1,5 @@
 from django.db import models
+from uuslug import uuslug
 
 from companies.models import Company
 from project.base.models import BaseModel, Phone
@@ -7,9 +8,14 @@ from project.base.models import BaseModel, Phone
 class Driver(BaseModel):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Компания', related_name='drivers')
     full_name = models.CharField('ФИО', max_length=255)
+    slug = models.CharField('Слаг', max_length=50, blank=True)
 
     def __str__(self):
         return self.full_name
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.full_name, instance=self)
+        super(Driver, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'drivers'
