@@ -7,8 +7,8 @@ from project.base.models import BaseModel
 class Company(BaseModel):
     type = models.ForeignKey('companies.CompanyType', on_delete=models.PROTECT, verbose_name='Правовая форма',
                              related_name='companies')
-    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование', unique=True)
-    name_full = models.CharField(max_length=255, verbose_name='Полное наименование', unique=True)
+    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование')
+    name_full = models.CharField(max_length=255, verbose_name='Полное наименование')
     is_customer = models.BooleanField(default=False, verbose_name='Может быть заказчиком')
     is_transporter = models.BooleanField(default=False, verbose_name='Может быть перевозчиком')
     is_own = models.BooleanField(default=False, verbose_name='Своя компания')
