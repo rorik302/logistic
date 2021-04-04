@@ -29,8 +29,8 @@ class Company(BaseModel):
 
 
 class CompanyType(BaseModel):
-    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование', unique=True)
-    name_full = models.CharField(max_length=255, verbose_name='Полное наименование', unique=True)
+    name_short = models.CharField(max_length=255, verbose_name='Сокращенное наименование')
+    name_full = models.CharField(max_length=255, verbose_name='Полное наименование')
     slug = models.CharField('Слаг', max_length=50, blank=True)
 
     class Meta:
@@ -57,6 +57,8 @@ class Requisites(BaseModel):
     fact_address = models.CharField(max_length=255, blank=True, verbose_name='Фактический адрес')
     phone = PhoneNumberField(blank=True, verbose_name='Телефон')
     email = models.EmailField(blank=True, verbose_name='E-mail')
+    is_active = models.BooleanField('Активно', default=False)
+    slug = models.CharField('Слаг', max_length=50, blank=True)
 
     class Meta:
         db_table = 'company_requisites'
@@ -65,3 +67,12 @@ class Requisites(BaseModel):
 
     def __str__(self):
         return f'Реквизиты {self.company.name_short}'
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.company.name_short, instance=self)
+
+        if self.is_active:
+            requisites = Requisites.objects.filter(company=self.company).exclude(id=self.id)
+            requisites.update(is_active=False)
+
+        super(Requisites, self).save(*args, **kwargs)

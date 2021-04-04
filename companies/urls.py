@@ -1,16 +1,13 @@
-from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-from companies.views import CompanyListCreateAPIView, CompanyRUDAPIView, CustomerListAPIView, TransporterListAPIView, \
-    OwnCompanyListAPIView, CompanyTypeListCreateAPIView, CompanyTypeRUDAPIView
+from companies.views import CompanyViewSet, CompanyTypeViewSet, RequisitesViewSet
 
 app_name = 'companies'
 
-urlpatterns = [
-    path('customers/', CustomerListAPIView.as_view(), name='list_customers'),
-    path('own/', OwnCompanyListAPIView.as_view(), name='list_own_companies'),
-    path('transporters/', TransporterListAPIView.as_view(), name='list_transporters'),
-    path('types/<slug:slug>/', CompanyTypeRUDAPIView.as_view(), name='rud_type'),
-    path('types/', CompanyTypeListCreateAPIView.as_view(), name='list_create_types'),
-    path('<slug:slug>/', CompanyRUDAPIView.as_view(), name='rud_company'),
-    path('', CompanyListCreateAPIView.as_view(), name='list_create_companies')
-]
+router = SimpleRouter()
+router.register('requisites', RequisitesViewSet)
+router.register('types', CompanyTypeViewSet)
+router.register('', CompanyViewSet)
+
+urlpatterns = []
+urlpatterns += router.urls
