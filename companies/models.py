@@ -1,5 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from uuslug import uuslug
 
 from project.base.models import BaseModel
 
@@ -12,6 +13,7 @@ class Company(BaseModel):
     is_customer = models.BooleanField(default=False, verbose_name='Может быть заказчиком')
     is_transporter = models.BooleanField(default=False, verbose_name='Может быть перевозчиком')
     is_own = models.BooleanField(default=False, verbose_name='Своя компания')
+    slug = models.CharField('Слаг', max_length=50, blank=True)
 
     class Meta:
         db_table = 'companies'
@@ -20,6 +22,10 @@ class Company(BaseModel):
 
     def __str__(self):
         return f'{self.type.name_short} {self.name_short}'
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name_short, instance=self)
+        super(Company, self).save(*args, **kwargs)
 
 
 class CompanyType(BaseModel):
