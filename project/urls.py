@@ -6,6 +6,7 @@ from project.settings import DEBUG
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('api/applications/', include('applications.urls')),
     path('api/companies/', include('companies.urls')),
     path('api/drivers/', include('drivers.urls')),
     path('api/vehicles/', include('vehicles.urls')),
