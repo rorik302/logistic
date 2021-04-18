@@ -11,7 +11,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Phone(models.Model):
+class Phone(BaseModel):
     TYPE_CHOICE = [
         ('mobile', 'Мобильный'),
         ('desk', 'Стационарный'),
