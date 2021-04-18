@@ -1,9 +1,8 @@
-from rest_framework.serializers import ModelSerializer
-
 from applications.models import Application
+from project.base.serializers import BaseModelSerializer
 
 
-class ApplicationSerializer(ModelSerializer):
+class ApplicationSerializer(BaseModelSerializer):
     class Meta:
         model = Application
         fields = '__all__'
