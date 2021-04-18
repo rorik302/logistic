@@ -1,10 +1,10 @@
 from rest_framework.exceptions import ValidationError
-from rest_framework.serializers import ModelSerializer
 
 from drivers.models import Driver
+from project.base.serializers import BaseModelSerializer
 
 
-class DriverSerializer(ModelSerializer):
+class DriverSerializer(BaseModelSerializer):
     class Meta:
         model = Driver
         fields = '__all__'
