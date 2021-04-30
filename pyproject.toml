@@ -13,6 +13,7 @@ django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.0.0"}
 djangorestframework = "^3.12.4"
 django-uuslug = "^1.2.0"
 six = "^1.15.0"
+django-cors-headers = "^3.7.0"
 
 [tool.poetry.dev-dependencies]
 drf-spectacular = "^0.15.0"
