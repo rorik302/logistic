@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.fields import SerializerMethodField
 
 from drivers.models import Driver, DriverPhone, DriverLicense, DriverPassport
 from project.base.serializers import BaseModelSerializer
@@ -23,9 +24,14 @@ class DriverPassportSerializer(BaseModelSerializer):
 
 
 class DriverSerializer(BaseModelSerializer):
+    phones = SerializerMethodField()
+
     class Meta:
         model = Driver
-        fields = '__all__'
+        fields = BaseModelSerializer.Meta.fields + ['company', 'full_name', 'phones', 'licenses', 'passports']
+
+    def get_phones(self, obj):
+        return DriverPhoneSerializer(obj.phones.all(), many=True).data
 
     def validate(self, attrs):
         company = attrs.get('company')

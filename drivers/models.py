@@ -27,7 +27,7 @@ class DriverPhone(Phone):
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name='Водитель', related_name='phones')
 
     def __str__(self):
-        return self.phone
+        return str(self.phone)
 
     class Meta:
         db_table = 'drivers_phones'

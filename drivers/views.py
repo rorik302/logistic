@@ -6,7 +6,7 @@ from drivers.serializers import DriverSerializer, DriverPhoneSerializer, DriverL
 
 
 class DriverViewSet(ModelViewSet):
-    queryset = Driver.objects.all()
+    queryset = Driver.objects.prefetch_related('phones', 'passports', 'licenses')
     serializer_class = DriverSerializer
     lookup_field = 'slug'
 
